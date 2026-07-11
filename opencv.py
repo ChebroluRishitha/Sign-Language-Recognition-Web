@@ -53,8 +53,8 @@ def keras_process_image(img):
 def crop_image(image, x, y, width, height):
     return image[y:y + height, x:x + width]
 
+cam_capture = cv2.VideoCapture(0)
 while True:  
-    cam_capture = cv2.VideoCapture(0)
     _, image_frame = cam_capture.read()  
     # Select ROI
     im2 = crop_image(image_frame, 300,300,300,300)
