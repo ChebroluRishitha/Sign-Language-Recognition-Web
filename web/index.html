@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SensiSign | Real-Time ASL</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Modular CSS Sheets -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/camera.css">
+    <link rel="stylesheet" href="css/right_panels.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+
+    <!-- MediaPipe dependencies via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <i class="fa-solid fa-hand-peace"></i>
+                <span>Sign Language Recognition</span>
+            </div>
+            <div class="status-badge" id="cameraStatus">
+                <div class="pulse"></div>
+                <span id="cameraStatusText">Initializing...</span>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT -->
+        <main class="main-layout">
+            
+            <!-- LEFT: GUIDE SYMBOLS PANEL (SIDEBAR) -->
+            <section class="guide-bar-panel">
+                <div class="guide-bar-header">
+                    <span>ASL Alphabet Chart</span>
+                    <span id="guideFeedback" style="color: var(--color-primary); font-weight: 600;">Active Sign Guide</span>
+                </div>
+                <div class="guide-content-row">
+                    <!-- Reference SVG Chart -->
+                    <div class="chart-container">
+                        <img src="asl_chart.svg" alt="ASL Fingerspelling Alphabet Chart" class="asl-chart-image">
+                    </div>
+                    <!-- Handedness Guide Details -->
+                    <div class="guide-details-container">
+                        <div class="guide-active-info" id="guideActiveInfo">
+                            Show any sign to the camera to see its description, or look at the chart above to practice the letters A-Z.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT: CAMERA + CONTROLS -->
+            <section class="camera-panel">
+                
+                <!-- WEBCAM BOX -->
+                <div class="video-container">
+                    <div class="camera-loader" id="cameraLoader">
+                        <div class="spinner"></div>
+                    </div>
+                    <video id="webcam" autoplay playsinline></video>
+                    <canvas id="overlay"></canvas>
+                    <div class="stats-overlay">
+                        <div class="badge-item" id="fpsCounter">0 FPS</div>
+                        <div class="badge-item" id="handTrackBadge">No Hand</div>
+                    </div>
+                    <div class="stats-overlay" style="top: auto; bottom: 0.75rem; left: 0.75rem; display: flex; flex-direction: column;">
+                        <div class="badge-item" id="debugInfo" style="font-family: monospace; font-size: 0.7rem; white-space: pre; line-height: 1.4; display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- CONTROLS SIDE PANEL -->
+                <div class="panel controls-panel">
+                    <!-- DETECTED SIGN -->
+                    <div class="prediction-box">
+                        <div class="predicted-char" id="predictedLetter">-</div>
+                        <div class="prediction-meta">
+                            <span class="title">Detected Sign</span>
+                            <span class="confidence" id="predictionConfidence">0% Match</span>
+                        </div>
+                    </div>
+
+                    <!-- SPELLER -->
+                    <div class="speller-box">
+                        <div class="text-output-area" id="spelledText">
+                            <span class="text-placeholder">Webcam feed detects letters in real-time...</span>
+                        </div>
+                        <div class="speller-controls">
+                            <button class="btn btn-primary" id="btnBackspace"><i class="fa-solid fa-delete-left"></i> Del</button>
+                            <button class="btn" id="btnSpace"><i class="fa-solid fa-arrows-left-right"></i> Space</button>
+                            <button class="btn" id="btnSpeak" style="grid-column: span 2;"><i class="fa-solid fa-volume-high"></i> Speak Text</button>
+                            <button class="btn" id="btnClearText" style="grid-column: span 2;"><i class="fa-solid fa-trash-can"></i> Clear All</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modular Script Imports -->
+    <script src="js/state.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/classifier.js"></script>
+    <script src="js/speller.js"></script>
+    <script src="js/camera.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
