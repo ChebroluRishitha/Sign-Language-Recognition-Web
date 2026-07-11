@@ -60,14 +60,4 @@ Signs that require motion or suffer from finger occlusion relative to a single c
 * **`J` and `Z`:** These signs require tracing shapes in the air (a curve and a zig-zag). Since the classification engine is static-frame based, they are not dynamically traced.
 * **`M` and `N`:** These require tucking the thumb under three or two fingers. From a front-facing camera view, this causes heavy depth overlap (occlusion), making them hard to distinguish from normal fists.
 
----
 
-## 📂 Codebase Architecture
-
-The project is designed with modularity in mind. To keep the code highly readable, **every single file is kept strictly under 150 lines of code**:
-
-* **[web/index.html](file:///c:/Users/charleswesley/OneDrive/Desktop/Sign-Language-Recognition-master/web/index.html)**: Clean, single-screen HTML5 skeleton structure.
-* **[web/css/layout.css](file:///c:/Users/charleswesley/OneDrive/Desktop/Sign-Language-Recognition-master/web/css/layout.css)**: Layout settings supporting side-by-side sidebar columns.
-* **[web/css/sidebar.css](file:///c:/Users/charleswesley/OneDrive/Desktop/Sign-Language-Recognition-master/web/css/sidebar.css)**: Sidebar styling for the vertical ASL chart.
-* **[web/js/classifier.js](file:///c:/Users/charleswesley/OneDrive/Desktop/Sign-Language-Recognition-master/web/js/classifier.js)**: The core geometry engine classifying ASL fingerspelling.
-* **[web/js/main.js](file:///c:/Users/charleswesley/OneDrive/Desktop/Sign-Language-Recognition-master/web/js/main.js)**: Initializer binding MediaPipe loop events to DOM updates.
